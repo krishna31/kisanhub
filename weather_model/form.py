@@ -62,8 +62,7 @@ class WeatherDataImportForm(forms.ModelForm):
                     )
 
     def _construct_url(self, region, value_type):
-        return "http://www.metoffice.gov.uk/pub/data/weather/%s/climate/datasets/%s/date/%s" % (
-            region.lower(),
+        return "http://www.metoffice.gov.uk/pub/data/weather/uk/climate/datasets/%s/date/%s" % (
             self.VALUE_TYPE_CHOICES[value_type],
             str(region) + '.txt'
         )
