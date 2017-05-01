@@ -75,3 +75,48 @@ class WeatherDataImportForm(forms.ModelForm):
         file_name = self._download_file(url)
         csv_file = self._convert_txt_to_csv(file_name)
         self._insert_data(csv_file, region, value_type)
+
+
+class WeatherDataChartForm(forms.Form):
+    BACKGROUND_COLOR_CHOICES = {
+        'UK': "rgba(153,255,51,0.6)",
+        'England': "rgba(255,153,0,0.6)",
+        'Wales': "rgb(220,220,220)",
+        'Scotland': "#9b59b6",
+    }
+
+    year = forms.ChoiceField(
+        widget=forms.Select(attrs={'class': 'form-control'}),
+        required=True
+    )
+    value_type = forms.ChoiceField(
+        widget=forms.Select(attrs={'class': 'form-control'}),
+        required=True
+    )
+
+    def __init__(self, *args, **kwargs):
+        self.request = kwargs.pop('request', None)
+        super(WeatherDataChartForm, self).__init__(*args, **kwargs)
+        years = WeatherData.objects.all().distinct('year')
+        self.fields['value_type'].choices = WeatherData.VALUE_TYPE_CHOICES
+        self.fields['year'].choices = [(a.year, a.year) for a in years]
+
+    def save(self):
+        cd = self.cleaned_data
+        data = {}
+        weather_data = WeatherData.objects.filter(
+            year=cd['year'],
+            value_type=cd['value_type']
+        ).distinct('month_season').order_by('month_season')
+
+        data['labels'] = list(weather_data.values_list('month_season', flat=True))
+        data['datasets'] = []
+
+        for region in WeatherData.REGION_CHOICE:
+            data_sets = {}
+            data_sets['data'] = list(weather_data.filter(region=region[0]).values_list('value', flat=True))
+            data_sets['label'] = region[0]
+            data_sets['backgroundColor'] = self.BACKGROUND_COLOR_CHOICES[region[0]]
+            data['datasets'].append(data_sets)
+
+        return data

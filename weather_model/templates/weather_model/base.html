@@ -39,19 +39,16 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="#">Kissan Hub</a>
+                <a class="navbar-brand" href="/">Kissan Hub</a>
             </div>
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
                     <li>
-                        <a href="#">Manage Data</a>
+                        <a href="{% url 'import_data' %}">Import Data</a>
                     </li>
                     <li>
-                        <a href="#">Dashboard</a>
-                    </li>
-                    <li>
-                        <a href="#">About</a>
+                        <a href="{% url 'chart' %}">Chart</a>
                     </li>
                 </ul>
             </div>
@@ -125,7 +122,6 @@
 
         <hr>
         {% endblock %}
-        {% block footer%}
         <!-- Footer -->
         <footer>
             <div class="row">
@@ -140,12 +136,14 @@
     </div>
     <!-- /.container -->
 
-    <!-- jQuery -->
-    <script type="text/javascript" src="{% static 'weather_model/js/jquery.js' %}"></script>
+    {% block footerjs %}
+        <!-- jQuery -->
+        <script type="text/javascript" src="{% static 'weather_model/js/jquery.js' %}"></script>
 
-    <!-- Bootstrap Core JavaScript -->
-    <script type="text/javascript" src="{% static 'weather_model/js/bootstrap.min.js' %}"></script>
+        <!-- Bootstrap Core JavaScript -->
+        <script type="text/javascript" src="{% static 'weather_model/js/bootstrap.min.js' %}"></script>
     {% endblock %}
+
 </body>
 
 </html>

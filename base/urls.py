@@ -17,9 +17,11 @@ from django.conf.urls import url
 from django.contrib import admin
 from django.conf import settings
 from django.conf.urls.static import static
-from weather_model.views import import_data
+from weather_model.views import import_data, chart, index
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^import-data/', import_data, name='import_data'),
+    url(r'^$', index, name='index'),
+    url(r'^import-data/$', import_data, name='import_data'),
+    url(r'^chart/$', chart, name='chart'),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

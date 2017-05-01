@@ -26,14 +26,11 @@
 					   {% for field in form.visible_fields %}
                         <div class="form-group">
                         <label>{{ field.label_tag }}<sup style="color:red">*</sup></label>
-                        {% if field.help_text %}
-                            <small class="pull-right">{{ field.help_text|safe }}</small>
-                        {% endif %}
                         {{ field }}
                         <span style="color:red">{{ field.errors }}</span>
                         </div>
                     {% endfor %}
-                    <input type="submit"/>
+                    <input type="submit" class="btn btn-default"/>
                 </form>
 				</form>
             </div>
